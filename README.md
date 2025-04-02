@@ -12,7 +12,7 @@ The National Renewable Energy Laboratory (NREL) National Solar Radiation Databas
  
 The flowchart below explains the process used within the code.
 
-![Code flowchart](images\PV_potential_code_diagram_report.png)  
+![Code flowchart](images/PV_potential_code_diagram_report.png)  
 
 Reusable functions for this project are contained in the \tools directory. Each function's header contains a function description. The script **Example_script.py** provides an example of how the code can be run. 
 
