@@ -11,7 +11,7 @@ For the case of Canada, [lidar](https://open.canada.ca/data/en/dataset/7069387e-
 
 ## Usage
 
-The code and outputs are split into 3 different modes of operations that will be explained below. In general, reusable functions for this project are contained in the \tools directory. Each function's header contains a function description. This code requires that the building footprint and lidar data have matching coordinate systems. If this is not the case for the user's data, or if it unknown whether this is the case or not, please follow the steps listed in [Reprojecting Shapefiles](#reprojecting-shapefiles) 
+The code and outputs are split into 3 different modes of operations that will be explained below. In general, reusable functions for this project are contained in the /tools directory. Each function's header contains a function description. This code requires that the building footprint and lidar data have matching coordinate systems. If this is not the case for the user's data, or if it unknown whether this is the case or not, please follow the steps listed in [Reprojecting Shapefiles](#reprojecting-shapefiles) 
 
 IMPORTANT NOTE: the file_location variable in the example_script files refers to the location where all the output files will the located. In the case of saved files (ex. saved shading files with file extension ftr), these will also be read from this location. This will happen when re-running the same code, or when running the Technical, Grid, or Grid_scale modes (interchangebly). 
 
@@ -20,11 +20,11 @@ A full listing of the contents of each directory is contained below in the [Brie
 ### **Technical**
 The flowchart below explains the process used within the code.
 
-![Code flowchart](images\Code_diagram_technical.drawio.png)  
+![Code flowchart](images/Code_diagram_technical.drawio.png)  
 
 
-The script [Example_script_technical.py](script\Example_script_technical.py) provides an example of how the code can be run. 
-Use the file [Example_script_technical_coeff.py](script\Example_script_technical_coeff.py) to calculate the technical potential with inputted coefficients
+The script [Example_script_technical.py](script/Example_script_technical.py) provides an example of how the code can be run. 
+Use the file [Example_script_technical_coeff.py](script/Example_script_technical_coeff.py) to calculate the technical potential with inputted coefficients
 
 #### Inputs:
 **In the example_script file**
@@ -36,7 +36,7 @@ Use the file [Example_script_technical_coeff.py](script\Example_script_technical
 6. resolution: Resolution for the Digital Surface Model (DSM) files that will be created (represents the pixel size, so an input of 1 is 1 m2 pixel area)
 
 **In the script\batch_inputs\Technical folder**
-One file ([Example1.txt](script\batch_inputs\Technical\Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
+One file ([Example1.txt](script/batch_inputs/Technical/Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Location for the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Location (folder) for the lidar files for that region (file format: LAS)
 3. weather_file: path to the file for the region. The code currently takes input with format consistent with [NREL NSRDB](https://nsrdb.nrel.gov/) for locations below 60°, and [CWEC](https://open.canada.ca/data/en/dataset/55438acb-aa67-407a-9fdb-1cb21eb24e28) for above
@@ -49,10 +49,10 @@ One file ([Example1.txt](script\batch_inputs\Technical\Example1.txt)) to modify/
 ### **Market**
 The flowchart below explains the process used within the code.
 
-![Code flowchart](images\Code_diagram_market.drawio.png)  
+![Code flowchart](images/Code_diagram_market.drawio.png)  
 
 
-The script [Example_script_market.py](script\Example_script_market.py) provides an example of how the code can be run. 
+The script [Example_script_market.py](script/Example_script_market.py) provides an example of how the code can be run. 
 
 #### Inputs:
 **In the example_script file**
@@ -74,7 +74,7 @@ See template within folder for the format
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
 **In the script\batch_inputs\Market folder**
-One file ([Example1.txt](script\batch_inputs\Market\Example1.txt)) to modify/create in this folder per region in the analysis, containing:
+One file ([Example1.txt](script/batch_inputs/Market/Example1.txt)) to modify/create in this folder per region in the analysis, containing:
 1. ground_floor_res_km2: Total ground floor area in km2 for residential buildings
 2. ground_floor_com_km2: Total ground floor area in km2 for commercial and institutional buildings
 3. daily_insolation_kWh/m2: Daily mean insolation (in kWh/m2) for the region in the plane of an unshaded, optimally oriented fixed surface
@@ -84,10 +84,10 @@ One file ([Example1.txt](script\batch_inputs\Market\Example1.txt)) to modify/cre
 ### **Grid**
 The flowchart below explains the process used within the code.
 
-![Code flowchart](images\Code_diagram_Grid.drawio.png)  
+![Code flowchart](images/Code_diagram_Grid.drawio.png)  
 
 
-The script [Example_script_grid.py](script\Example_script_grid.py) provides an example of how the code can be run. 
+The script [Example_script_grid.py](script/Example_script_grid.py) provides an example of how the code can be run. 
 
 **In the example_script file**
 1. scaling_option: set to False if coefficients should be used to calculate the technical potential instead of the results from the inputted region, i.e. if  scaling up the results from the region used with lidar data to calculate a larger area. Example: scaling up from the shaded POA calculated for Toronto,CA to calculate the province-wide results for Ontario
@@ -111,7 +111,7 @@ Input the demand profiles (annual and hourly) per region in the analysis (annual
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
 **In the batch_inputs\Grid folder**
-One file ([Example1.txt](script\batch_inputs\Grid\Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
+One file ([Example1.txt](script/batch_inputs/Grid/Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Path to the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Path to the lidar files for that region (file format: LAS)
 3. weather_file: Path to the weather file for the region. The code currently takes input with format consistent with [NREL NSRDB](https://nsrdb.nrel.gov/) for locations below 60°, and [NASA Power](https://power.larc.nasa.gov/data-access-viewer/) 
@@ -128,10 +128,10 @@ One file ([Example1.txt](script\batch_inputs\Grid\Example1.txt)) to modify/creat
 ### **Grid with Scaling option enabled**
 The flowchart below explains the process used within the code.
 
-![Code flowchart](images\Code_diagram_Grid_scale.drawio.png)  
+![Code flowchart](images/Code_diagram_Grid_scale.drawio.png)  
 
 
-The script [Example_script_grid_scale.py](script\Example_script_grid_scale.py) provides an example of how the code can be run. 
+The script [Example_script_grid_scale.py](script/Example_script_grid_scale.py) provides an example of how the code can be run. 
 
 **In the example_script file**
 1. scaling_option: set to True if coefficients should be used to calculate the technical potential instead of the results from the inputted region, i.e. if scaling up the results from the region used with lidar data to calculate a larger area. Example: scaling up from the shaded POA calculated for Toronto, CA to calculate the province-wide results for Ontario.
@@ -158,7 +158,7 @@ Input the demand profiles (annual and hourly) per region in the analysis (annual
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
 **In the batch_inputs\Grid folder**
-One file ([Example1_scale.txt](script\batch_inputs\Grid_scale\Example1_scale.txt)) to modify/create in this folder per region in the analysis with inputs of
+One file ([Example1_scale.txt](script/batch_inputs/Grid_scale/Example1_scale.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Path to the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Path to the lidar files for that region (file format: LAS)
 3. weather_file: Path to the weather file for the region. The code currently takes input with format consistent with [NREL NSRDB](https://nsrdb.nrel.gov/) for locations below 60°, and [NASA Power]() 
