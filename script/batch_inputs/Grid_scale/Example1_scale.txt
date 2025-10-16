@@ -1,0 +1,13 @@
+bldg_footprint_shapefile= C:\Users\user_name\Documents\file_name.shp
+lidar_LAS_folder=  C:\Users\user_name\Documents\LAS files
+weather_file= C:\Users\user_name\Documents\file_name.csv
+latitude_degrees= 49.3200
+longitude_degrees= -123.0724
+UTC_offset= -08:00
+altitude_m= 80
+file_classifier= region_name
+historical_capacity_MW_DC=77.2
+daily_insolation_kWh/m2=3.80
+ground_floor_res_km2=158.36
+ground_floor_com_km2=66.71
+

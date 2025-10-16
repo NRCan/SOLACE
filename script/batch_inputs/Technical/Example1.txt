@@ -1,0 +1,8 @@
+bldg_footprint_shapefile= C:\Users\user\Documents\filename.shp
+lidar_LAS_folder=  C:\Users\user\Documents\LAS files
+weather_file= C:\Users\user\Documents\filename.csv
+latitude_degrees= 64.3176
+longitude_degrees= -96.0220
+UTC_offset= -06:00
+altitude_m= 18
+file_classifier= region_name

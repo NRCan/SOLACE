@@ -1,0 +1,4 @@
+ground_floor_res_km2=480.47
+ground_floor_com_km2=190.31
+daily_insolation_kWh/m2=4.22
+historical_capacity_MW_DC=1380.0
