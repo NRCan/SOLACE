@@ -16,7 +16,7 @@ if __name__=="__main__":
                 #'Market' to calculate the the potential by region (rule-of-thumb and uses inputs derived from the 'Technical' model),
                 #'grid' to calculate provincial values with a consideration for the hosting capacity (uses shading data from the detailed analysis)
     
-    scaling_option=False #set to False if coefficients should be used to calculate the technical potential instead of the results from the inputted region 
+    scaling_option=False #set to False if coefficients should not be used to calculate the technical potential instead of the results from the inputted region 
                         #  i.e. if scaling up the results from the region used with lidar data to calculate a larger area
                         # Example: scaling up from the shaded POA calculated for Toronto,CA to calculate the province-wide results for Ontario
     region_names=['Example1','Example2'] #should match the files names in the \batch_inputs\Grid folder

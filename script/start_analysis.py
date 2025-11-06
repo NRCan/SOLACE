@@ -50,11 +50,12 @@ def calculate_one_region_grid(region:str,file_location:str,resolution:int|float,
     region_variables.raster_file=file_location+'\\'+region_variables.file_classifier+'_rooftop_Raster.tif' #file name location of the output rasterized shapefile
     region_variables.shapefile=file_location+'\\'+region_variables.file_classifier+'_rooftop.shp' #file name location of the output shapefile from the segmentation
     
-    analysis=calculate_deployed_capacity.check_calculate_technical_files(region_variables,resolution)
-    
+    calculate_deployed_capacity.check_calculate_technical_files(file_location,region_variables)
+    analysis=calculate_deployed_capacity.SensitivityAnalysis(region_variables)
     bldg_scenarios,cost_scenarios,elec_cost_scenarios,pv_eff,pv_pr,market_share_scenarios=set_up_scenarios()
     time=list(range(0,len(bldg_scenarios[0][0])))
     time=np.array(time, dtype='float32')
+    
     analysis.sensitivity_analysis(p_range,q_range,cost_scenarios,elec_cost_scenarios,pv_eff,region,market_share_scenarios,
                                 pv_pr,bldg_scenarios,file_location,starting_year,ending_year,time,mode,annual_demand,hourly_demand,
                                 shading_granularity,hosting_capacity,scaling_option)
@@ -266,8 +267,8 @@ def rep_analysis(rep_days: int,region: region_data,file_location: list,performan
         print("Shading completed\n")
     else:
         TID=file_save.extract_data(saved_file)
-    technical_potential=calculate_technical_potential.calculate_technical_potential_rep(TID,region,performance_ratio,module_efficiency,rep_days,'Technical')
-    data=technical_potential.rep()
+    technical_potential=calculate_technical_potential.calculate_technical_potential_rep(TID,region,performance_ratio,module_efficiency)
+    data=technical_potential.rep(rep_days)
     return data
 
 def set_up_scenarios()->list:

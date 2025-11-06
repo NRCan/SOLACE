@@ -9,6 +9,23 @@ The authors used the code with Canadian municipalities, but it can be used in an
 
 For the case of Canada, [lidar](https://open.canada.ca/data/en/dataset/7069387e-9986-4297-9f55-0288e9676947) and [building footprints](https://open.canada.ca/data/en/dataset/7a5cda52-c7df-427f-9ced-26f19a8a64d6)  can be downloaded for free from databases created by the Canada Centre for Mapping and Earth Observation (CCMEO). The Technical mode was applied to Canada and its provinces and territories for the year 2019 to generate the results described in a report [published by CanmetENERGY in Varennes](https://natural-resources.canada.ca/science-data/science-research/research-centres/assessing-photovoltaic-potential-canadian-building-stock). The National Renewable Energy Laboratory (NREL) National Solar Radiation Database [(NSRDB)](https://nsrdb.nrel.gov/) should be used for all Canadian meteorological data except those above a latitude of 60°, in which case [Canadian Weather Year for Energy Calculation (CWEC)](https://open.canada.ca/data/en/dataset/55438acb-aa67-407a-9fdb-1cb21eb24e28) can be used in epw format for the Technical mode. For the Grid mode, [NASA POWER](https://power.larc.nasa.gov/data-access-viewer/) should be used for all regions with latitudes above 60°. 
 
+## Required data
+
+The following data/inputs were used by the authors to run the code:
+
+1. **Weather data** from [(NSRDB)](https://nsrdb.nrel.gov/) or [CWEC](https://open.canada.ca/data/en/dataset/55438acb-aa67-407a-9fdb-1cb21eb24e28) (above 60°) for the *Technical* mode and [NASA POWER](https://power.larc.nasa.gov/data-access-viewer/) for the *Grid* mode
+2. **Lidar data** for the *Technical* and *Grid (no scale)* modes from [CCMEO](https://open.canada.ca/data/en/dataset/7069387e-9986-4297-9f55-0288e9676947)
+3. **Building footprint data** for the *Technical* and *Grid (no scale)* modes from [CCMEO](https://open.canada.ca/data/en/dataset/7a5cda52-c7df-427f-9ced-26f19a8a64d6)
+4. **Hourly electrical demand** sourced from Canada Energy Regulator (CER), not publicly available
+5. **Historical capacity** for the national survey reports [(NSR)](https://iea-pvps.org/national-survey-reports/)
+6. **Daily insolation** from [Photovoltaic potential and solar resource maps of Canada](https://natural-resources.canada.ca/energy-sources/renewable-energy/photovoltaic-potential-solar-resource-maps-canada)
+7. **Ground floor area** can be found within [this database](https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/data_e/databases.cfm?attr=0)
+8. **Electricity cost and building stock growth** can be found from the Canada's Energy Future reports from [CER](https://apps.cer-rec.gc.ca/ftrppndc/dflt.aspx?GoCTemplateCulture=en-CA)
+9. **PV cost and PV performance ratio** were calculated using [NREL ATB](https://atb.nrel.gov/electricity/2023/data) numbers
+10. **PV efficiency** from [International Technology Roadmap for Photovoltaics (ITRPV)](https://www.vdma.eu/en-GB/international-technology-roadmap-photovoltaic)
+11. **Maximum market share curves** from R. W. Beck, Inc., “Distributed renewable energy operating impacts and valuation study,” Prepared for: Arizona Public Service, Technical Report, Jan. 2009
+
+
 ## Usage
 
 The code and outputs are split into 3 different modes of operations that will be explained below. In general, reusable functions for this project are contained in the /tools directory. Each function's header contains a function description. This code requires that the building footprint and lidar data have matching coordinate systems. If this is not the case for the user's data, or if it unknown whether this is the case or not, please follow the steps listed in [Reprojecting Shapefiles](#reprojecting-shapefiles) 
@@ -28,14 +45,14 @@ Use the file [Example_script_technical_coeff.py](script/Example_script_technical
 
 #### Inputs:
 **In the example_script file**
-1. region_name: List of names for regions in the study (name must match with the file names in the script\batch_inputs folders) 
+1. region_name: List of names for regions in the study (name must match with the file names in the script/batch_inputs folders) 
 2. file_location: Path to the directory for all output files (needs to be created prior to running)
 3. shading_granularity: The method used to compute shading losses. Options are annual, hourly, or representative. In the annual case, the script computes the annual average shading loss. In the hourly case, shading is computed for each hour of the year. In the representative case, shding is computed for each hour of 12 representative days (one per month), and these hourly shadings are applied to other days in the corresponding month.
 4. performance_ratio: PV system annual performance ratio
 5. module_efficiency: PV module efficiency 
 6. resolution: Resolution for the Digital Surface Model (DSM) files that will be created (represents the pixel size, so an input of 1 is 1 m2 pixel area)
 
-**In the script\batch_inputs\Technical folder**
+**In the script/batch_inputs/Technical folder**
 One file ([Example1.txt](script/batch_inputs/Technical/Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Location for the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Location (folder) for the lidar files for that region (file format: LAS)
@@ -63,7 +80,7 @@ The script [Example_script_market.py](script/Example_script_market.py) provides 
 5. ending_year: Ending year for the analysis
 6. cap_coefficient_shade: Coefficient Uf2 used to calculate the capacity by resource bin (can be calculated from mode 'Technical')
 7. elec_coefficient_shade: Coefficient Yr used to calculate energy generation by resource bin (can be calculated from mode 'Technical')
-8. region_names: List of names for regions in the study (name must match with the file names in the script\batch_inputs folders) 
+8. region_names: List of names for regions in the study (name must match with the file names in the script/batch_inputs folders) 
 
 
 **In the electricity_demand folder**
@@ -73,7 +90,7 @@ See template within folder for the format
 **In the scenarios folder**
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
-**In the script\batch_inputs\Market folder**
+**In the script/batch_inputs/Market folder**
 One file ([Example1.txt](script/batch_inputs/Market/Example1.txt)) to modify/create in this folder per region in the analysis, containing:
 1. ground_floor_res_km2: Total ground floor area in km2 for residential buildings
 2. ground_floor_com_km2: Total ground floor area in km2 for commercial and institutional buildings
@@ -88,10 +105,10 @@ The flowchart below explains the process used within the code.
 
 
 The script [Example_script_grid.py](script/Example_script_grid.py) provides an example of how the code can be run. 
-
 **In the example_script file**
-1. scaling_option: set to False if coefficients should be used to calculate the technical potential instead of the results from the inputted region, i.e. if  scaling up the results from the region used with lidar data to calculate a larger area. Example: scaling up from the shaded POA calculated for Toronto,CA to calculate the province-wide results for Ontario
-2. region_names: List of names for regions in the study (name must match with the file names in the script\batch_inputs folders) 
+
+1. scaling_option: set to False if coefficients should not be used to calculate the technical potential instead of the results from the inputted region, i.e. if  scaling up the results from the region used with lidar data to calculate a larger area. Example: scaling up from the shaded POA calculated for Toronto,CA to calculate the province-wide results for Ontario
+2. region_names: List of names for regions in the study (name must match with the file names in the script/batch_inputs folders) 
 3. starting_year: Starting year for the analysis
 4. ending_year: Ending year for the analysis
 5. file_location: Path to the directory for all output files (needs to be created prior to running). Should use the same file_location as for the Technical mode in order to use outputs from that mode.
@@ -104,13 +121,13 @@ The script [Example_script_grid.py](script/Example_script_grid.py) provides an e
 12. p_range: List of values to consider for Bass diffusion model parameter p (or use defaults that are currently available)
 13. q_range: List of values to consider for Bass diffusion model parameter q (or use defaults that are currently available)
 
-**In the electricity_demand and electricity_demand\hourly folders**
+**In the electricity_demand and electricity_demand/hourly folders**
 Input the demand profiles (annual and hourly) per region in the analysis (annual values in MWh, hourly values in MW). NOTE: make sure the name of the files is the same as the region name inputted into the example script file. See template within folder for the format
 
 **In the scenarios folder**
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
-**In the batch_inputs\Grid folder**
+**In the batch_inputs/Grid folder**
 One file ([Example1.txt](script/batch_inputs/Grid/Example1.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Path to the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Path to the lidar files for that region (file format: LAS)
@@ -135,7 +152,7 @@ The script [Example_script_grid_scale.py](script/Example_script_grid_scale.py) p
 
 **In the example_script file**
 1. scaling_option: set to True if coefficients should be used to calculate the technical potential instead of the results from the inputted region, i.e. if scaling up the results from the region used with lidar data to calculate a larger area. Example: scaling up from the shaded POA calculated for Toronto, CA to calculate the province-wide results for Ontario.
-2. region_names: List of names for regions in the study (name must match with the file names in the script\batch_inputs folders) 
+2. region_names: List of names for regions in the study (name must match with the file names in the script/batch_inputs folders) 
 3. starting_year: Starting year for the analysis
 4. ending_year: Ending year for the analysis
 5. cap_coefficient_shade: Coefficient Uf2 used to calculate the capacity by resource bin (can be calculated from mode 'Technical')
@@ -151,17 +168,17 @@ The script [Example_script_grid_scale.py](script/Example_script_grid_scale.py) p
 15. q_range: List of values to consider for Bass diffusion model parameter q (or use defaults that are currently available)
 
 
-**In the electricity_demand and electricity_demand\hourly folders**
+**In the electricity_demand and electricity_demand/hourly folders**
 Input the demand profiles (annual and hourly) per region in the analysis (annual values in MWh, hourly values in MW). NOTE make sure the name of the files is the same as the region name inputted into the example script file. See template within folder for the format.
 
 **In the scenarios folder**
 Leave as is or change the scenario files to add or remove scenarios or modify the numbers within. If not using the different provinces in Canada as input, change the files within the elec_cost_data and building_growth_data as these files are location based. For more information on the scenario files, see section [Brief description of directories and files](#brief-description-of-directories-and-files).
 
-**In the batch_inputs\Grid folder**
+**In the batch_inputs/Grid folder**
 One file ([Example1_scale.txt](script/batch_inputs/Grid_scale/Example1_scale.txt)) to modify/create in this folder per region in the analysis with inputs of
 1. bldg_footprint_shapefile: Path to the building footprint file for that region (file format (.shp))
 2. lidar_LAS_folder: Path to the lidar files for that region (file format: LAS)
-3. weather_file: Path to the weather file for the region. The code currently takes input with format consistent with [NREL NSRDB](https://nsrdb.nrel.gov/) for locations below 60°, and [NASA Power]() 
+3. weather_file: Path to the weather file for the region. The code currently takes input with format consistent with [NREL NSRDB](https://nsrdb.nrel.gov/) for locations below 60°, and [NASA Power](https://power.larc.nasa.gov/data-access-viewer/) 
 4. latitude_degrees: Latitude of the region in decimal degrees
 5. longitude_degrees: Longitude of the region in decimal degrees
 6. UTC_offset: UTC offset, format example '-06:00'
@@ -186,7 +203,7 @@ All python files are listed below by directory with a short description.
 
 **Main Directory**
 
-**Directory: \script**
+**Directory: /script**
 
 *Example_script_mode.py:* there are 4 versions of this file for each option available. The ending of the file indicates what mode it runs. Run this file to complete the analysis. The user must specify some input parameters in the file and in the folder called "batch_inputs". The folder in 'batch_inputs' indicates the mode these inputs are for.
 
@@ -210,7 +227,7 @@ Note: To be able to run this tool, the coordinate system of the building footpri
 
 *hosting_capacity_variables.py:* used as a container for the input variables needed to calculate the grid hosting capacity limits (used only for mode 'Grid')
 
-**Directory: \script\tools**
+**Directory: /script/tools**
 
 *file_handle.py:* used to read and write the shading data.
 
@@ -222,21 +239,21 @@ It has three inputs, the file location for laszip, the region name (used in the 
 
 *spatial_toolset.py:* used to convert the segmentation vector file to a raster file without the need of another program such as QGIS or ArcGIS.
 
-**Directory: \script\WBT**
+**Directory: /script/WBT**
 
 This directory was downloaded from [WhiteboxTools Open Core](https://www.whiteboxgeo.com/) and is used to perform specific functionality within the code to generate the DSM files and assemble them into a mosaic, create rooftop segments, and calculate the shading on each segment. The code has only been tested with version 1.4, if the linux or other version of the package is required, please download the necessary files from the [WBT github](https://github.com/jblindsay/whitebox-tools/releases/tag/1.4.0).
 
-**Directory: \script\electricity_demand**
+**Directory: /script/electricity_demand**
 
-This directory contains the annual and hourly electricity demand from 2020 to 2050 for the use case, but this can be changed. The annual demand is in \script\electricity_demand while the hourly is within \script\electricity_demand\hourly.  A template is provided in both of those folders. The original files used by the authors were provided by the Canada Energy Regulator (CER).
+This directory contains the annual and hourly electricity demand from 2020 to 2050 for the use case, but this can be changed. The annual demand is in /script/electricity_demand while the hourly is within /script/electricity_demand/hourly.  A template is provided in both of those folders. The original files used by the authors were provided by the Canada Energy Regulator (CER).
 
-**Directory: \script\scenarios**
+**Directory: /script/scenarios**
 
 This directory contains the files for the scenarios used in Market and Grid modes. The python files located in this directory extract the data from the excel files in the sub-folders. The analysis conducted  with this code (done for Canada) used the following variables for scenarios: building stock growth, electricity cost evolution, maximum market share vs. payback period, PV cost evolution, evolution in PV module efficiency and RPV system performance ratio. The files contain data from 2022 to 2050 and can be modified for the specific use. 
 The variables for the building stock and electricity cost are region specific. Use a different column in these files for each region in the analysis (currently has values for each province and territory in Canada) and use the same name as what is inputted in to the example script.
 To add in more scenarios, add in files of a similar format to the folders in question (i.e. to add in a scenario for the electricity cost, simply add in a file with the same format to the elec_cost_data folder). Conversely, to remove a scenario, delete the file for the scenario you would like to remove. NOTE: The data provided and used by the authors was provided by the Canada Energy Regulator (CER).The  maximum market share vs. payback period data was from R. W. Beck, Inc., “Distributed renewable energy operating impacts and valuation study,” Prepared for: Arizona Public Service, Technical Report, Jan. 2009.
 
-**Directory: \script\batch_inputs**
+**Directory: /script/batch_inputs**
 
 This directory has four folders: Technical, Market, Grid, and Grid Scaling. Each folder contains the region-specific inputs for each of the modes. The user should fill in one txt file with the required inputs for each region that the user would like to include in the analysis and place the files into the folder labelled the same as the mode used.
 
