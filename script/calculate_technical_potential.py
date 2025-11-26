@@ -623,9 +623,11 @@ class calculate_technical_potential_annual(calculate_technical_potential_hourly)
         # rooftop_for_TID.set_index('FID',inplace=True)
         rooftop_for_TID=rooftop_for_TID.reset_index(drop=True)
         self.TID=self.TID.reset_index(drop=True)
+        rooftop_for_TID=self.get_building_footprint(rooftop_for_TID)
+        self.building_area=rooftop_for_TID.drop_duplicates('BUILDING',keep='first')['building_area'].sum()
         #Include the annual average shading (TID for TimeInDaylight) as a new column in the rooftop_for_TID dataframe
         rooftop_for_TID['TID']=self.TID
-        print('Filterd {} points from data that are negative'.format(len(rooftop_for_TID[rooftop_for_TID['TID']<0])) )
+        # print('Filterd {} points from data that are negative'.format(len(rooftop_for_TID[rooftop_for_TID['TID']<0])) )
         rooftop_for_TID=rooftop_for_TID[rooftop_for_TID['TID']>=0]
         #Multiply the POA by the TID to get annual POA (in kWh/m2) with shading. Later we will want to do a proper calculation with this multiplication performed hourly.
         rooftop_for_TID['POA_with_shading']=rooftop_for_TID['TID']*rooftop_for_TID['POA_SUM']
@@ -660,8 +662,8 @@ class calculate_technical_potential_annual(calculate_technical_potential_hourly)
         print(Total_PV_capacity_MW)
         print(Total_PV_energy_GWh)
 
-        return [Total_PV_capacity_MW,Total_PV_energy_GWh,Total_PV_capacity_IEA_MW,Total_PV_energy_IEA_GWh,
-                area]
+        return [Total_PV_capacity_MW,Total_PV_energy_GWh,rooftop_for_TID['BUILDING'].nunique(),
+                area,self.building_area/1000/1000]
     
 class calculate_technical_potential_rep(calculate_technical_potential_hourly):
     def __init__(self,TID_avg_by_FID: DataFrame,region: DataFrame,PR:float,PV_module_efficiency:float,rep_days: int,mode:str)->None:
